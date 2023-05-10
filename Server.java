@@ -10,6 +10,8 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Server {
 
@@ -142,8 +144,12 @@ public class Server {
 
             try{
 
-                // Recuperand LAN IP
+                // Recuperando LAN IP
                 // https://stackoverflow.com/questions/30419386/how-can-i-get-my-lan-ip-address-using-java
+                    // Regex to chek if address is IPv4
+                String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
+                Pattern pattern = Pattern.compile(regex);
+                // Available network interfaces
                 Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces();
                 while (nics.hasMoreElements()) {
 
@@ -153,7 +159,9 @@ public class Server {
                     while (addrs.hasMoreElements()) {
 
                         addr = addrs.nextElement();
-                        if (!nic.isLoopback()) break;
+                        Matcher matcher = pattern.matcher(addr.getHostName());
+                        
+                        if (!nic.isLoopback() && matcher.matches()) break;
 
                     }
 
