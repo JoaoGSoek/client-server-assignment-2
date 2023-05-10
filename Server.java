@@ -6,10 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Enumeration;
 
 public class Server {
 
@@ -144,23 +142,23 @@ public class Server {
                 // Recuperando LAN IP
                 // https://stackoverflow.com/questions/30419386/how-can-i-get-my-lan-ip-address-using-java
                 // Available network interfaces
-                Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces();
-                while (nics.hasMoreElements()) {
+                // Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces();
+                // while (nics.hasMoreElements()) {
 
-                    NetworkInterface nic = nics.nextElement();
-                    Enumeration<InetAddress> addrs = nic.getInetAddresses();
+                //     NetworkInterface nic = nics.nextElement();
+                //     Enumeration<InetAddress> addrs = nic.getInetAddresses();
 
-                    while (addrs.hasMoreElements()) {
+                //     while (addrs.hasMoreElements()) {
 
-                        addr = addrs.nextElement();                        
-                        if (!nic.isLoopback() && !addr.getHostName().equals("0:0:0:0:0:0:0:1")) break;
-                        addr = null;
+                //         addr = addrs.nextElement();                        
+                //         if (!nic.isLoopback() && !addr.getHostName().equals("0:0:0:0:0:0:0:1")) break;
+                //         addr = null;
 
-                    }
+                //     }
 
-                    if(addr != null) break;
+                //     if(addr != null) break;
 
-                }
+                // }
 
                 // String address = Inet4Address.getLocalHost().getHostAddress();
                 // System.out.println(address);
@@ -172,6 +170,8 @@ public class Server {
                 // address = String.join(".", splitAddress);
                 // addr = InetAddress.getByName(address);
                 // System.out.println(addr);
+
+                addr = InetAddress.getByName("192.168.0.1");
 
                 // Abrindo Socket
                 ServerSocket server = new ServerSocket(socket, 1, addr);
