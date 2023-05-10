@@ -18,7 +18,7 @@ public class Server {
     private static File messages;
     private static File newMessageControl;
 
-    private static int socket = 123456;
+    private static int socket = 12345;
     private static long lastModified;
 
     private static boolean exit = false;
@@ -57,7 +57,7 @@ public class Server {
 
                     if(!foundSocket){ // Tentando se conectar com o outro servidor
                         
-                        externalServer = new Socket(addr.getHostName(), (socket == 123456) ? 123457 : 123456);
+                        externalServer = new Socket(addr.getHostName(), (socket == 12345) ? 12346 : 12345);
                         System.out.println("Conectado ao servidor externo");
                         foundSocket = true;
                     
