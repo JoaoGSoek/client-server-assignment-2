@@ -162,11 +162,8 @@ public class Server {
                 }
 
                 // Abrindo Socket
-                ServerSocket server = new ServerSocket(socket, 1);
+                ServerSocket server = new ServerSocket(socket, 1, addr);
                 System.out.println("IP: " + server.getInetAddress().getHostAddress());
-
-                addr = server.getInetAddress();
-                System.out.println(addr.getHostName());
 
                 // Iniciando thread de input
                 InputHandler inputHandler = new InputHandler(server);
