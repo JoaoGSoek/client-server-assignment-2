@@ -10,8 +10,6 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Server {
 
@@ -27,10 +25,9 @@ public class Server {
 
     private static class OutputHandler extends Thread{
 
-        private Socket externalServer = null;
-
         public void run() {
 
+            Socket externalServer = null;
             boolean foundSocket = false;
 
             while(!exit){
@@ -60,7 +57,7 @@ public class Server {
 
                     if(!foundSocket){ // Tentando se conectar com o outro servidor
                         
-                        this.externalServer = new Socket(addr.getHostName(), (socket == 3000) ? 3001 : 3000);
+                        externalServer = new Socket(addr.getHostName(), (socket == 3000) ? 3001 : 3000);
                         System.out.println("Conectado ao servidor externo");
                         foundSocket = true;
                     
@@ -146,9 +143,6 @@ public class Server {
 
                 // Recuperando LAN IP
                 // https://stackoverflow.com/questions/30419386/how-can-i-get-my-lan-ip-address-using-java
-                    // Regex to chek if address is IPv4
-                String regex = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$";
-                Pattern pattern = Pattern.compile(regex);
                 // Available network interfaces
                 Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces();
                 while (nics.hasMoreElements()) {
@@ -158,10 +152,9 @@ public class Server {
 
                     while (addrs.hasMoreElements()) {
 
-                        addr = addrs.nextElement();
-                        Matcher matcher = pattern.matcher(addr.getHostName());
-                        
-                        if (!nic.isLoopback() && matcher.matches()) break;
+                        addr = addrs.nextElement();                        
+                        if (!nic.isLoopback() && !addr.getHostName().equals("0:0:0:0:0:0:0:1")) break;
+                        addr = null;
 
                     }
 
@@ -169,8 +162,19 @@ public class Server {
 
                 }
 
+                // String address = Inet4Address.getLocalHost().getHostAddress();
+                // System.out.println(address);
+                // String[] splitAddress = new String[4];
+                // System.out.println(splitAddress.length);
+                // splitAddress = address.split("[.]");
+                // splitAddress[3] = "1";
+                // System.out.println(splitAddress[0] + "." + splitAddress[1] + "." + splitAddress[2] + "." + splitAddress[3]);
+                // address = String.join(".", splitAddress);
+                // addr = InetAddress.getByName(address);
+                // System.out.println(addr);
+
                 // Abrindo Socket
-                ServerSocket server = new ServerSocket(socket, 1, InetAddress.getLocalHost());
+                ServerSocket server = new ServerSocket(socket, 1, addr);
                 System.out.println("IP: " + server.getInetAddress().getHostAddress());
 
                 // Iniciando thread de input
