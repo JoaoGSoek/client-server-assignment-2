@@ -160,22 +160,12 @@ public class Server {
 
                 // }
 
-                // String address = Inet4Address.getLocalHost().getHostAddress();
-                // System.out.println(address);
-                // String[] splitAddress = new String[4];
-                // System.out.println(splitAddress.length);
-                // splitAddress = address.split("[.]");
-                // splitAddress[3] = "1";
-                // System.out.println(splitAddress[0] + "." + splitAddress[1] + "." + splitAddress[2] + "." + splitAddress[3]);
-                // address = String.join(".", splitAddress);
-                // addr = InetAddress.getByName(address);
-                // System.out.println(addr);
-
-                addr = InetAddress.getByName("192.168.0.1");
-
                 // Abrindo Socket
-                ServerSocket server = new ServerSocket(socket, 1, addr);
+                ServerSocket server = new ServerSocket(socket, 1);
                 System.out.println("IP: " + server.getInetAddress().getHostAddress());
+
+                addr = server.getInetAddress();
+                System.out.println(addr.getHostName());
 
                 // Iniciando thread de input
                 InputHandler inputHandler = new InputHandler(server);
