@@ -55,6 +55,8 @@ public class Server {
                     
                     }
 
+                    Thread.sleep(1000);
+
                     if(!foundSocket){ // Tentando se conectar com o outro servidor
                         
                         externalServer = new Socket(addr.getHostName(), (socket == 12345) ? 12346 : 12345);
@@ -62,8 +64,6 @@ public class Server {
                         foundSocket = true;
                     
                     }
-
-                    Thread.sleep(1000);
 
                 } catch (Exception e) {
                     
@@ -96,12 +96,12 @@ public class Server {
                 while(!exit){ // Recebendo mensagens do outro servidor
 
                     ObjectInputStream inputStream = new ObjectInputStream(connectedServer.getInputStream());
-
                     File inputMessages = (File) inputStream.readObject();
+
                     PrintWriter messageWriter = new PrintWriter(messages);
                     messageWriter.println(inputMessages);
                     messageWriter.close();
-                    
+
                     PrintWriter messageControlWriter = new PrintWriter(newMessageControl);
                     messageControlWriter.println("TRUE");
                     messageControlWriter.close();
@@ -135,7 +135,6 @@ public class Server {
         }
 
         lastModified = messages.lastModified();
-        System.out.println(lastModified);
 
         while(!exit){
 
