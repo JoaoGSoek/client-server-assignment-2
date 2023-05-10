@@ -170,7 +170,7 @@ public class Server {
                 }
 
                 // Abrindo Socket
-                ServerSocket server = new ServerSocket(socket, 1, addr);
+                ServerSocket server = new ServerSocket(socket, 1, InetAddress.getLocalHost());
                 System.out.println("IP: " + server.getInetAddress().getHostAddress());
 
                 // Iniciando thread de input
